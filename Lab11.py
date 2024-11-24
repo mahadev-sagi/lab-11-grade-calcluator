@@ -21,7 +21,7 @@ def find_assignments():
     with open('data/assignments.txt', "r") as file:
         lines = file.readlines()
         for i in range (0,len(lines),3):
-            if i+2 < len(lines):
+            if i+2 < len(lines): # attempt for error handling
                 name = lines[i].strip()
                 assignment_id = lines[i+1].strip()
                 points = int(lines[i+2].strip())
@@ -38,7 +38,7 @@ def find_submissions():
         with open(file_path,'r') as file:
             for line in file:
                 line = line.strip()
-                if '|' in line:
+                if '|' in line: # attempt for error handling
                     student_id,assignment_id,percentage = line.strip().split('|')
                     submissions.append({
                         'student_id':student_id,
@@ -54,7 +54,10 @@ def find_submissions():
 def main():
     while True:
         menu()
-        choice = input('\nEnter your selection:')
+        try: # error handling
+            choice = input('\nEnter your selection:')
+        except EOFError:
+            print('no input recieved')
         if choice == '1':
             students = find_students()
             student_name = input("What is the student's name:")
@@ -108,29 +111,6 @@ def main():
                     plt.xlabel("Percentage")
                     plt.ylabel('Number of Students')
                     plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
