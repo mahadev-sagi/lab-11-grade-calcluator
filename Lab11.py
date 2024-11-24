@@ -21,10 +21,13 @@ def find_assignments():
     with open('data/assignments.txt', "r") as file:
         lines = file.readlines()
         for i in range (0,len(lines),3):
-            name = lines[i].strip()
-            assignment_id = lines[i+1].strip()
-            points = int(lines[i+2].strip())
-            assignments[assignment_id] = {'name':name,'points':points}
+            if i+2 < len(lines):
+                name = lines[i].strip()
+                assignment_id = lines[i+1].strip()
+                points = int(lines[i+2].strip())
+                assignments[assignment_id] = {'name':name,'points':points}
+            else:
+                break
         return assignments
 
 def find_submissions():
@@ -34,12 +37,16 @@ def find_submissions():
         file_path = os.path.join(sub_path,i)
         with open(file_path,'r') as file:
             for line in file:
-                student_id,assignment_id,percentage = line.strip().split('|')
-                submissions.append({
-                    'student_id':student_id,
-                    'assignment_id':assignment_id,
-                    'percentage': int(percentage)
-                    })
+                line = line.strip()
+                if '|' in line:
+                    student_id,assignment_id,percentage = line.strip().split('|')
+                    submissions.append({
+                        'student_id':student_id,
+                        'assignment_id':assignment_id,
+                        'percentage': int(percentage)
+                        })
+                else:
+                    break
     return submissions
 
 
